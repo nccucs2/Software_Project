@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{%static 'css/semantic.css'%}">
+
+  <style>
+  .filtered {
+     /* background: #00c2ff; */
+     background: #191970;
+     width:400px;
+     height:400px;
+     border-radius: 50%;
+     margin-top:200px;
+     margin-left:310px;
+     position:absolute;
+   }
+  .filtered img {
+
+     mix-blend-mode: screen;
+     width:400px;
+     height:400px;
+     -webkit-filter: grayscale(100%) contrast(100%);
+     filter: grayscale(0%) contrast(100%);
+     opacity: 1;
+     border-radius: 50%;
+   }
+   .intro{
+     font-size: 30px;
+     color:white;
+     position: absolute;
+     top: 45%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+   }
+   .school{
+     background:white;
+     width:200px;
+     height:50px;
+     position:absolute;
+     top:59%;
+     left:60%;
+     transform: translate(-70%, -70%);
+   }
+   .system_name{
+     width:200px;
+     height:30px;
+     font-size: 25px;
+     /* color:black; */
+     /* -webkit-text-stroke: 1px #191970;
+     -webkit-text-fill-color: transparent; */
+     color:#191970;
+     position: absolute;
+     margin-top:  30px;
+     margin-left:  95px;
+     transform: translate(-40%, -50%);
+   }
+   .login{
+     /* background: #191970; */
+     background:#F5F5F5;
+     width:500px;
+     height:500px;
+     border-radius: 50%;
+     margin-top:150px;
+     margin-left:640px;
+     position:absolute;
+   }
+   .login_word{
+
+     font-size: 20px;
+     color:black;
+     position: absolute;
+     top: 120px;
+     left: 125px;
+     transform: translate(-50%, -50%);
+   }
+   label.NAME{
+     color:black;
+     position: absolute;
+     top: 170px;
+     left: 120px;
+     transform: translate(-50%, -50%);
+   }
+   label.MAJOR{
+     color:black;
+     position: absolute;
+     top: 230px;
+     left: 120px;
+     transform: translate(-50%, -50%);
+   }
+   label.NUMBER{
+     color:black;
+     position: absolute;
+     top: 290px;
+     left: 120px;
+     transform: translate(-50%, -50%);
+   }
+   #major{
+     position: absolute;
+     top: 260px;
+     left: 185px;
+     transform: translate(-50%, -50%);
+   }
+   #name{
+     position: absolute;
+     top: 200px;
+     left: 185px;
+     transform: translate(-50%, -50%);
+   }
+   #number{
+     position: absolute;
+     top: 320px;
+     left: 185px;
+     transform: translate(-50%, -50%);
+   }
+   input{
+    margin-left:55px;
+    height:30px;
+    width:250px;
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: #F5F5F5;
+    padding: 1px 2px 2px 1px;
+   }
+   input:focus {
+/* outline:none; */
+    border: 0;
+   }
+   button{
+     width:110px;
+
+   }
+   .decorate.left{
+     /* background: #191970; */
+     background-color: #2185D0;
+     width:85px;
+     height:85px;
+     border-radius: 50%;
+     position:relative;
+   }
+   .decorate.right{
+    /* background-color: #2185D0; */
+    background: #191970;
+     width:55px;
+     height:55px;
+     border-radius: 50%;
+     position:relative;
+   }
+   .decorate.big{
+     background: #191970;
+     width:55px;
+     height:55px;
+     border-radius: 50%;
+     position:relative;
+   }
+   .decorate.small{
+     postion:fixed;
+     background-color: #2185D0;
+      width:25px;
+      height:25px;
+      border-radius: 50%;
+      position:relative;
+   }
+  </style>
+</head>
+<body>
+  <div class="filtered">
+      {% load staticfiles %}
+      <img src="{% static "images/final_elevator.jpg" %}">
+      <div class="intro">政治大學</div>
+      <div class="school">
+        <div class="system_name">校園個人化入口</div>
+        <div class="decorate left" style="margin-top:150px;margin-left:0px;"></div>
+
+      </div>
+
+  </div>
+  <div class="login">
+
+      <p class="login_word" style="margin-left:0px;">你的身分</p>
+
+
+      <div class="decorate right" style="margin-top:85px;margin-right:40px;"></div>
+
+      <form name='create_count' action='/accounts/identify/' method='POST'>
+        {% csrf_token %}
+        <div class="formgroup" id="name-form">
+          <label class="NAME" for=name>輸入名字</label>
+          <input type="text" id="name" name="name" autocomplete="off" placeholder="請輸入名字">
+        </div>
+        <div class="formgroup" id="major-form">
+          <label class="MAJOR" for=major>輸入科系</label>
+          <input type="text" id="major" name="major" autocomplete="off" placeholder="請輸入科系">
+        </div>
+        <div class="formgroup" id="number-form">
+          <label class="NUMBER" for=number>輸入學號</label>
+          <input type="text" id="number" name="number" autocomplete="off" placeholder="請輸入學號">
+        </div>
+        <button type="submit" class="ui purple button" style="width:160px;margin-top:240px;margin-left:150px;border-radius:20px">確認</button>
+
+          <div class="decorate big" style="margin-top:30px;margin-left:400px;">
+            <div class="decorate small" style="margin-top:30px;margin-left:430px;">
+          </div>
+          <div class="decorate small" style="margin-top:5px;margin-left:40px;">
+
+      </form>
+  </div>
+
+
+
+
+
+
+
+</html>

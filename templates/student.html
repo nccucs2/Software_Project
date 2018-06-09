@@ -1,0 +1,129 @@
+<html>
+<head>
+
+<title></title>
+
+<meta charset="UTF-8">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+{% load staticfiles %}
+<link rel="stylesheet" href="{%static 'css/semantic.css'%}">
+<style>
+
+#sector {
+color:#00C2C2;
+position: relative;
+overflow: hidden;
+width: 700px;
+height: 700px;
+margin-left:400px;
+border-radius:50%;
+}
+#sector li{
+  background-color:white;
+  list-style: none;
+  overflow: hidden;
+  position:absolute;
+  width:350px;
+  height:350px;
+  top: 50%; right: 50%;
+  transform: translate(50%,-50%);
+  border-radius:50%;
+  box-shadow: 0px 0px 20px 0px #a6a6a6;
+}
+#sector .line{
+  position:absolute;
+  width:1px;
+  height:1400px;
+  margin-left:0px;
+  border-radius:0%;
+  background-color:#00C2C2;
+  right:50%;
+  top:0%;
+  transform-origin: 100% 25%;
+}
+
+#sector ul a {
+list-style: none;
+position: absolute;
+background-color: white;
+width: 700px;
+height:350px;
+right: 50%;
+top: 0;
+transform-origin: 100% 100%;
+}
+#sector a:hover{
+  background-color: #00C2C2;
+  color:white;
+}
+#sector .sector1 {
+transform: rotate(45deg);
+}
+
+#sector .sector2 {
+transform: rotate(135deg);
+}
+
+#sector .sector3 {
+transform: rotate(225deg);
+}
+
+#sector .sector4 {
+transform: rotate(315deg);
+}
+
+#sector ul a p {
+position: absolute;
+top: 160px;
+left:510px;
+font-size:20px;
+}
+
+#sector li a{
+  position:absolute;
+  width:140px;
+  height:40px;
+  font-size:15px;
+  top: 50%; right: 50%;
+  transform: translate(50%,-50%);
+  top:270px;
+  border-radius: 20px;
+  background-color:#0086b3;
+}
+#sector li a:hover{
+  background-color:#0086a3;
+}
+#sector li p{
+  margin-left:70px;
+  position:absolute;
+  top: 50%; right: 50%;
+  transform: translate(50%,-50%);
+  font-size:15px;
+}
+</style>
+
+<div id="sector">
+
+
+<ul>
+<a href="/student/course/" class="sector1"><p style="transform: rotate(-45deg);">課程</p></a>
+<a href="/student/gpa/" class="sector2"><p style="transform: rotate(-135deg);">GPA</p></a>
+<a href="/student/suggest_course/" class="sector3"><p style="transform: rotate(-225deg);">推薦</p></a>
+<a href="/student/grade/" class="sector4"><p style="transform: rotate(-315deg);">成績</p></a>
+</ul>
+<p class="line" style="transform:rotate(45deg);"></p>
+<p class="line" style="transform:rotate(135deg);"></p>
+<li>
+  <p style="margin-top:-90px;color:black">{{students.major}}</p>
+  <p style="margin-top:-50px;font-size:25px;color:black">{{students.name}}</p>
+  <p>{{students.number}}</p>
+  <a href="/accounts/logout/" class="ui blue button"> 登出 </a>
+</li>
+
+
+
+</div>
+
+</body>
+
+</html>
