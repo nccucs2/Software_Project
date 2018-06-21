@@ -48,9 +48,11 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request,'register.html',{'form':form})
+
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/login/')
+
 def identify(request):
     q = User.objects.all()
     if request.POST:
@@ -58,6 +60,7 @@ def identify(request):
         p.save();
         return HttpResponseRedirect('/login/')
     return render(request,'identify.html')
+    
 def student(request):
     #print(request)
     if request.user.is_authenticated:
