@@ -7,6 +7,8 @@ class student_info(models.Model):
     major=models.TextField(blank=True)
     name=models.TextField(blank=True)
     number=models.CharField(max_length=10)
+    def __str__(self):
+        return str(self.name)
 
 
 class course(models.Model):
@@ -37,7 +39,7 @@ class course_grade(models.Model):
     grade_range = models.ForeignKey(gpa,on_delete=models.CASCADE,default='')
     #grade_range=models.SmallIntegerField(default=0)
     def __str__(self):
-        return str(self.user) +  " " + str(self.course)
+        return str(self.user) +  " " + str(self.course) + " " + str(self.grade)
 
 
 
@@ -47,10 +49,10 @@ class personal_info(models.Model):
     id_number = models.CharField(max_length=10)
     guardian = models.CharField(max_length=10)
     birth = models.DateField()
-    phone_number = models.IntegerField()
+    phone_number = models.CharField(max_length=10)
     english_name = models.CharField(max_length=20)
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 
 # a = course.objects.all()

@@ -179,7 +179,21 @@
     </head>
 
       <h1>已修課程</h1>
-      
+      {% for course in courses %}
+      <div>
+      {{course.user}}
+      {{course.grade}}
+      {{course.course.AcademicYear}}
+      {{course.course.Semester}}
+      {{course.course.course_name}}
+      {{course.course.credit}}
+      {{course.course.course_code}}
+      {{course.course.department}}
+      {{course.course.course_type}}
+      {{course.course.general_type}}
+      {{course.grade_range.gpa_count}}
+    </div>
+    {% endfor %}
     <div class="fish" id="fish"></div>
     <div class="fish" id="fish2"></div>
 

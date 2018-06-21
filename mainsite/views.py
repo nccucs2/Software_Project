@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from mainsite.models import student_info
+from mainsite.models import student_info,course,course_grade,personal_info
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
@@ -60,7 +60,7 @@ def identify(request):
         p.save();
         return HttpResponseRedirect('/login/')
     return render(request,'identify.html')
-    
+
 def student(request):
     #print(request)
     if request.user.is_authenticated:
@@ -73,8 +73,26 @@ def student(request):
         return HttpResponseRedirect('/login/')
 
 def course(request):
+    print(request.user)
+    if request.user.is_authenticated:
+        courses=course_grade.objects.filter(user=request.user)
+        return render(request,'course.html',{
+        'courses':courses,
+        })
     return render(request,'course.html')
 
 def suggest_course(request):
     return render(request,'suggest_course.html')
+
+def person_info(request):
+    if request.user.is_authenticated:
+        my_infos=personal_info.objects.get(user=request.user)
+        print(my_infos.address)
+        return render(request,'personal_info.html',{
+        'my_infos':my_infos,
+        })
+    return render(request,'personal_info.html')
+
+def course_plan(request):
+    return render(request,'course_plan.html')
 # Create your views here.
