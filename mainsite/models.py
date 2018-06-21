@@ -22,21 +22,24 @@ class course(models.Model):
     course_type=models.CharField(max_length=5,blank=True)
     general_type=models.CharField(max_length=5,blank=True)
     def __str__(self):
-        return self.teacher + " " + self.course_name
+        return str(self.course_code) + " " + str(self.course_name)
+
+class gpa(models.Model):
+    gpa_count = models.FloatField()
+    grade_range=models.CharField(max_length=10)
+    def __str__(self):
+        return str(self.grade_range)
 
 class course_grade(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     course=models.ForeignKey(course,on_delete=models.CASCADE)
     grade=models.SmallIntegerField()
-    grade_range=models.SmallIntegerField(default=0)
+    grade_range = models.ForeignKey(gpa,on_delete=models.CASCADE,default='')
+    #grade_range=models.SmallIntegerField(default=0)
     def __str__(self):
-        return self.user +  " " + self.course
+        return str(self.user) +  " " + str(self.course)
 
-class gpa(models.Model):
-    grade_range = models.ForeignKey(course_grade,on_delete=models.CASCADE)
-    gpa_count = models.FloatField()
-    def __str__(self):
-        return self.gpa_count
+
 
 class personal_info(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -52,11 +55,12 @@ class personal_info(models.Model):
 
 # a = course.objects.all()
 # #a.delete()
+"""
 f = open('/Users/byron/Desktop/1062_courses_all_cleaned_22.csv','r',encoding='utf-16', errors='ignore')
 list=[]
 counter = 0
 number = 0
-"""
+
 for line in f.readlines():
      if counter ==0:
          counter+=1
