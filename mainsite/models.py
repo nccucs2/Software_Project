@@ -15,9 +15,11 @@ class course(models.Model):
     course_name = models.TextField()
     credit = models.DecimalField(max_digits=2,decimal_places=1)
     teacher = models.TextField()
-    object = models.CharField(max_length=3,blank=True)
     course_code = models.CharField(max_length=50,primary_key=True)
     course_category = models.CharField(max_length=5,blank=True)
+    department = models.TextField(blank=True)
+    course_type = models.CharField(max_length=5,blank=True)
+    general_type = models.CharField(max_length=5,blank=True)
     def __str__(self):
         return self.teacher + " " + self.course_name
 
