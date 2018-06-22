@@ -57,8 +57,7 @@ class personal_info(models.Model):
 
 # a = course.objects.all()
 # #a.delete()
-"""
-f = open('/Users/byron/Desktop/1062_courses_all_cleaned_22.csv','r',encoding='utf-16', errors='ignore')
+f = open('/Users/James/Desktop/software/Software_Project/mainsite/1062_courses_all_cleaned_22.csv','r',encoding='utf-16', errors='ignore')
 list=[]
 counter = 0
 number = 0
@@ -72,11 +71,11 @@ for line in f.readlines():
          Semester=(line.strip().split(',')[3])
 
          try:
-             print(int(Semester))
+             #print(int(Semester))
              number=int(Semester)
          except:
              number=0
-             print(0)
+             #print(0)
          course_name=line.strip().split(',')[4]
 
          credit=line.strip().split(',')[7]
@@ -85,11 +84,11 @@ for line in f.readlines():
          deparment=line.strip().split(',')[12]
          course_type=line.strip().split(',')[13]
          general_type=line.strip().split(',')[15]
-
+         a = line.strip().split(',')[16]
          #course.objects.create(AcademicYear=AcademicYear,Semester=number,course_name=course_name,credit=(credit),teacher=teacher,course_code=course_code,deparment=deparment,course_type=course_type,general_type=general_type)
-         print(AcademicYear,Semester,course_name,credit,teacher,course_code,deparment,course_type,general_type)
+         #print(AcademicYear,Semester,course_name,credit,teacher,course_code,deparment,course_type,general_type)
          # print(type( Semester))
+         print(a)
          counter+=1
          # if counter==10:
          #     break
-"""

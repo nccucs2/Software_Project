@@ -94,5 +94,31 @@ def person_info(request):
     return render(request,'personal_info.html')
 
 def course_plan(request):
+    department=student_info.objects.get(user=request.user)
+    mydepart = department.major[:2]
+    print(mydepart)
+    p = course_grade.objects.filter(user=request.user)
+    for i in p:
+        if i.course.deparment[:2]==mydepart:
+            if i.course.course_type=='必':
+                print('必修:')
+                print(i)
+            elif i.course.course_type=='選':
+                print('選修:')
+                print(i)
+            elif i.course.course_type=='群':
+                print('群修' )
+                print(i)
+    for i in p :
+        if i.course.general_type=='社會通識':
+            print('社會')
+            print(i)
+        if i.course.general_type=='自然通識':
+            print('自然')
+            print(i)
+        if i.course.general_type=='人文通識':
+            print('人文')
+            print(i)
+
     return render(request,'course_plan.html')
 # Create your views here.
