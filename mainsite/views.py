@@ -94,31 +94,121 @@ def person_info(request):
     return render(request,'personal_info.html')
 
 def course_plan(request):
+
+    department_require={"資科":48,"斯語":54,"社會":24,"教育":28}
+    department_group={"資科":15,"斯語":6,"社會":18,"教育":12}
+    sport = 0
+    service = 0
+    english = 0
+    chinese = 0
+    n_science = 0
+    s_science = 0
+    human = 0
+    total_credit_count = 0
+
     department=student_info.objects.get(user=request.user)
     mydepart = department.major[:2]
+
+    require_credit_left = department_require[mydepart]
+    group_credit_left = department_group[mydepart]
     print(mydepart)
+    print(require_credit_left)
+    print(group_credit_left)
+
+    """所有修過的課程"""
     p = course_grade.objects.filter(user=request.user)
+
     for i in p:
         if i.course.deparment[:2]==mydepart:
             if i.course.course_type=='必':
-                print('必修:')
-                print(i)
-            elif i.course.course_type=='選':
-                print('選修:')
-                print(i)
-            elif i.course.course_type=='群':
-                print('群修' )
-                print(i)
-    for i in p :
-        if i.course.general_type=='社會通識':
-            print('社會')
-            print(i)
-        if i.course.general_type=='自然通識':
-            print('自然')
-            print(i)
-        if i.course.general_type=='人文通識':
-            print('人文')
-            print(i)
+                require_credit_left-=int(i.course.credit)
 
-    return render(request,'course_plan.html')
+                print('必修:')
+                # print(i)
+            elif i.course.course_type=='選':
+                group_credit_left-=int(i.course.credit)
+
+                print('選修:')
+                # print(i)
+            elif i.course.course_type=='群':
+
+                print('群修:' )
+                # print(i)
+            # print(i)
+        elif i.course.course_name[:6]=='服務學習課程':
+                service+=1
+                print("服務")
+        elif i.course.course_name[:2]=='體育':
+                sport+=1
+                print("體育")
+        else:
+            if i.course.general_type=='社會通識':
+                s_science += int(i.course.credit)
+
+                print('社會:')
+                # print(i)
+            if i.course.general_type=='自然通識':
+                n_science += int(i.course.credit)
+
+                print('自然:')
+                # print(i)
+            if i.course.general_type=='人文通識':
+                human += int(i.course.credit)
+
+                print('人文:')
+                # print(i)
+            if i.course.general_type=='中文通識':
+                chinese += int(i.course.credit)
+
+                print('中文')
+            if i.course.general_type=='外文通識':
+                english += int(i.course.credit)
+
+                print('外文')
+            else:
+                print('其他')
+
+        total_credit_count+=int(i.course.credit)
+        print(i)
+
+    if n_science<4:
+        n_science_credit_left = 4 - n_science
+        print("自然還剩",n_science_credit_left)
+    elif n_science>9:
+        total_credit_count -= n_science - 9
+
+    if s_science<4:
+        s_science_credit_left = 4 - s_science
+        print("社會還剩",s_science_credit_left)
+    elif s_science>9:
+        total_credit_count -= s_science - 9
+
+    if human<4:
+        human_credit_left = 4 - human
+        print("人文還剩",human_credit_left)
+    elif human>9:
+        total_credit_count -= human - 9
+
+    if service<2:
+        service_left = 2 - service
+        print("服務還剩",service_left)
+
+    if english<4:
+        english_credit_left = 4 - english
+        print("英文還剩",english_credit_left)
+    elif english>6:
+        total_credit_count -= english - 6
+
+    if  chinese<3:
+        chinese_credit_left = 6 - chinese
+        print("中文還剩",chinese_credit_left)
+    elif chinese>6:
+        total_credit_count -= chinese - 6
+
+    print("必修剩下多少學分",require_credit_left)
+    print("群修剩下多少學分",group_credit_left)
+    print("總共已修",total_credit_count)
+
+
+    return render(request,'course_plan.html',locals())
 # Create your views here.

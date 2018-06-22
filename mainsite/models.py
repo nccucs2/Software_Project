@@ -7,8 +7,6 @@ class student_info(models.Model):
     major=models.TextField(blank=True)
     name=models.TextField(blank=True)
     number=models.CharField(max_length=10)
-    def __str__(self):
-        return str(self.name)
 
 
 class course(models.Model):
@@ -24,24 +22,21 @@ class course(models.Model):
     course_type=models.CharField(max_length=5,blank=True)
     general_type=models.CharField(max_length=5,blank=True)
     def __str__(self):
-        return str(self.course_code) + " " + str(self.course_name)
-
-class gpa(models.Model):
-    gpa_count = models.FloatField()
-    grade_range=models.CharField(max_length=10)
-    def __str__(self):
-        return str(self.grade_range)
+        return str(self.teacher) + " " + str(self.course_name)
 
 class course_grade(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     course=models.ForeignKey(course,on_delete=models.CASCADE)
     grade=models.SmallIntegerField()
-    grade_range = models.ForeignKey(gpa,on_delete=models.CASCADE,default='')
-    #grade_range=models.SmallIntegerField(default=0)
+    grade_range=models.SmallIntegerField(default=0)
     def __str__(self):
-        return str(self.user) +  " " + str(self.course) + " " + str(self.grade)
+        return str(self.user) +  " " + str(self.course)
 
-
+class gpa(models.Model):
+    grade_range = models.ForeignKey(course_grade,on_delete=models.CASCADE,default='',blank=True)
+    gpa_count = models.FloatField()
+    def __str__(self):
+        return str(self.gpa_count)
 
 class personal_info(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -49,19 +44,19 @@ class personal_info(models.Model):
     id_number = models.CharField(max_length=10)
     guardian = models.CharField(max_length=10)
     birth = models.DateField()
-    phone_number = models.CharField(max_length=10)
+    phone_number = models.IntegerField()
     english_name = models.CharField(max_length=20)
     def __str__(self):
-        return str(self.user)
+        return self.user
 
 
 # a = course.objects.all()
 # #a.delete()
-f = open('/Users/James/Desktop/software/Software_Project/mainsite/1062_courses_all_cleaned_22.csv','r',encoding='utf-16', errors='ignore')
+# f = open('/Users/byron/Desktop/1062_courses_all_cleaned_22.csv','r',encoding='utf-16', errors='ignore')
 list=[]
 counter = 0
 number = 0
-
+"""
 for line in f.readlines():
      if counter ==0:
          counter+=1
@@ -71,11 +66,11 @@ for line in f.readlines():
          Semester=(line.strip().split(',')[3])
 
          try:
-             #print(int(Semester))
+             print(int(Semester))
              number=int(Semester)
          except:
              number=0
-             #print(0)
+             print(0)
          course_name=line.strip().split(',')[4]
 
          credit=line.strip().split(',')[7]
@@ -84,11 +79,11 @@ for line in f.readlines():
          deparment=line.strip().split(',')[12]
          course_type=line.strip().split(',')[13]
          general_type=line.strip().split(',')[15]
-         a = line.strip().split(',')[16]
+
          #course.objects.create(AcademicYear=AcademicYear,Semester=number,course_name=course_name,credit=(credit),teacher=teacher,course_code=course_code,deparment=deparment,course_type=course_type,general_type=general_type)
-         #print(AcademicYear,Semester,course_name,credit,teacher,course_code,deparment,course_type,general_type)
+         print(AcademicYear,Semester,course_name,credit,teacher,course_code,deparment,course_type,general_type)
          # print(type( Semester))
-         print(a)
          counter+=1
          # if counter==10:
          #     break
+"""
