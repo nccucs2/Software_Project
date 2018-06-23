@@ -72,7 +72,7 @@ def student(request):
     else:
         return HttpResponseRedirect('/login/')
 
-def course(request):
+def course2(request):
     print(request.user)
     if request.user.is_authenticated:
         courses=course_grade.objects.filter(user=request.user)
@@ -82,6 +82,39 @@ def course(request):
     return render(request,'course.html')
 
 def suggest_course(request):
+    # make a dictionary for course_code
+    courses = course.objects.all()
+    data={}
+    for i in courses:
+        data[i.course_code]=0
+    """
+    for i in data:
+        print(data[i])
+        print(i)
+    """
+    #find the person who is the same major
+    me = student_info.objects.get(user=request.user)
+    my_major = me.major
+    student = student_info.objects.all()
+    #same major add 5
+    for i in student:
+        if i.major[:2]==my_major[:2]:
+            k = course_grade.objects.filter(user=i.user)
+            for j in k :
+                data[j.course.course_code]+=5
+    #different major add 2
+        else:
+            k = course_grade.objects.filter(user=i.user)
+            for j in k:
+                data[j.course.course_code]+=2
+    #initial the point to 0 with user's course
+    p = course_grade.objects.filter(user=request.user)
+    for i in p:
+        data[i.course.course_code]=0
+    for i in data:
+        if data[i]>=25:
+            r=course.objects.get(course_code=i)
+            print(r)
     return render(request,'suggest_course.html')
 
 def person_info(request):
