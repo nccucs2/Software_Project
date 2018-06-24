@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from mainsite.models import student_info,course,course_grade,personal_info,gpa
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-
+import random
 def login(request):
     #template = get_template('login.html')
     if request.user.is_authenticated:
@@ -73,7 +73,7 @@ def student(request):
     else:
         return HttpResponseRedirect('/login/')
 
-def course(request):
+def course2(request):
     print(request.user)
     if request.user.is_authenticated:
         courses=course_grade.objects.filter(user=request.user)
@@ -131,6 +131,95 @@ def course(request):
     return render(request,'course.html',locals())
 
 def suggest_course(request):
+    # make a dictionary for course_code
+    society=15
+    science=15
+    chinese=15
+    foreign=15
+    courses = course.objects.all()
+    data={}
+    for i in courses:
+        data[i.course_code]=random.randint(1,10)
+    """
+    for i in data:
+        print(data[i])
+        print(i)
+    """
+    #find the general_course
+    general = course_grade.objects.filter(user=request.user)
+    for i in general:
+        if i.course.general_type[2:4]=='通識':
+            if i.course.general_type[:2]=='社會':
+                society=society-int(i.course.credit)
+            elif i.course.general_type[:2]=='自然':
+                science=science-int(i.course.credit)
+            elif i.course.general_type[:2]=='中文':
+                chinese=chinese-int(i.course.credit) - 2
+            elif i.course.general_type[:2]=='外文':
+                foreign=foreign-int(i.course.credit) - 2
+    #find the person who is the same major
+    me = student_info.objects.get(user=request.user)
+    my_major = me.major
+    student = student_info.objects.all()
+    #same major add 5
+    for i in student:
+        k = course_grade.objects.filter(user=i.user)
+        #判斷是否同系
+        if i.major[:2]==my_major[:2]:
+            for j in k :
+                if j.course.deparment[:2]==i.major[:2]:
+                    data[j.course.course_code]+=10 + random.randint(1,3)
+                elif j.course.general_type[:2]=='社會':
+                    data[j.course.course_code]+=society + random.randint(1,3)
+                elif j.course.general_type[:2]=='自然':
+                    data[j.course.course_code]+=science + random.randint(1,3)
+                elif j.course.general_type[:2]=='中文':
+                    data[j.course.course_code]+=chinese + random.randint(1,3)
+                elif j.course.general_type[:2]=='外文':
+                    data[j.course.course_code]+=foreign + random.randint(1,3)
+                else:
+                    data[j.course.course_code]+=3
+    #different major add 2
+        else:
+            for j in k:
+                if j.course.deparment[:2]==i.major[:2]:
+                    data[j.course.course_code]+=15
+                elif j.course.general_type[:2]=='社會':
+                    data[j.course.course_code]+=society - random.randint(3,5)
+                elif j.course.general_type[:2]=='自然':
+                    data[j.course.course_code]+=science-5 - random.randint(3,5)
+                elif j.course.general_type[:2]=='中文':
+                    data[j.course.course_code]+=chinese-5 - random.randint(3,5)
+                elif j.course.general_type[:2]=='外文':
+                    data[j.course.course_code]+=foreign-5 - random.randint(3,5)
+                else:
+                    data[j.course.course_code]+=1
+    #initial the point to 0 with user's course
+    general = {}
+    majors={}
+    p = course_grade.objects.filter(user=request.user)
+    for i in p:
+        data[i.course.course_code]=0
+    for i in p:
+        if i.course.deparment[:2]==(student_info.objects.get(user=request.user)).major[:2]:
+            majors[i.course.course_code]=data[i.course.course_code]
+            data[i.course.course_code]=0
+        if i.course.general_type[2:4]=='通識':
+            general[i.course.course_code]=data[i.course.course_code]
+            data[i.course.course_code]=0
+    import heapq
+    propose1=heapq.nlargest(5, majors.keys())
+    propose2=heapq.nlargest(3, general.keys())
+    propose3=heapq.nlargest(2, data.keys())
+    for i in propose1:
+        print(i)
+        print(course.objects.get(course_code=i))
+    for i in propose2:
+        print(i)
+        print(course.objects.get(course_code=i))
+    for i in propose3:
+        print(i)
+        print(course.objects.get(course_code=i))
     return render(request,'suggest_course.html')
 
 def person_info(request):

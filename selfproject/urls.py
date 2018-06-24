@@ -24,7 +24,7 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^student/course_plan/$',views.course_plan),
     url(r'^student/personal_info/$',views.person_info),
-    url(r'^student/course/$',views.course),
+    url(r'^student/course/$',views.course2),
     url(r'^student/suggest_course/$',views.suggest_course),
     url(r'^accounts/register/$',views.register),
     url(r'^accounts/identify/$',views.identify),
