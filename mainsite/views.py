@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from mainsite.models import student_info,course,course_grade,personal_info
+from mainsite.models import student_info,course,course_grade,personal_info,gpa
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
@@ -69,6 +69,7 @@ def student(request):
         'students':students,
         })
 
+
     else:
         return HttpResponseRedirect('/login/')
 
@@ -76,10 +77,58 @@ def course(request):
     print(request.user)
     if request.user.is_authenticated:
         courses=course_grade.objects.filter(user=request.user)
-        return render(request,'course.html',{
-        'courses':courses,
-        })
-    return render(request,'course.html')
+        courses.gpa_list= [];
+        my_infos=personal_info.objects.get(user=request.user)
+        student = student_info.objects.get(user=request.user)
+        person = course_grade.objects.filter(user=request.user)
+        counter_credit = 0
+        sum = 0
+        i_count = 0;
+        for i in person:
+
+            # print(i.grade_range.course_name," ",i.grade_range.grade," ",i.grade_count)
+            if i.grade>=90 and i.grade<=100:
+                courses.gpa_list.append(4.3)
+            elif i.grade>=85 and i.grade<=89:
+                courses.gpa_list.append(4)
+            elif i.grade>=80 and i.grade<=84:
+                courses.gpa_list.append(3.7)
+            elif i.grade>=77 and i.grade<=79:
+                courses.gpa_list.append(3.3)
+            elif i.grade>=73 and i.grade<=76:
+                courses.gpa_list.append(3)
+            elif i.grade>=70 and i.grade<=72:
+                courses.gpa_list.append(2.7)
+            elif i.grade>=67 and i.grade<=69:
+                courses.gpa_list.append(2.3)
+            elif i.grade>=63 and i.grade<=66:
+                courses.gpa_list.append(2)
+            elif i.grade>=60 and i.grade<=62:
+                courses.gpa_list.append(1.7)
+            elif i.grade>=50 and i.grade<=59:
+                courses.gpa_list.append(1)
+            else:
+                courses.gpa_list.append(0)
+
+
+            print(i.course.course_name," ",i.grade," ",i.grade_range)
+            sum+=int(i.grade)*int(i.course.credit)
+            counter_credit+=int(i.course.credit)
+
+        sum_gpa = 0
+        i = 0
+        for course in courses:
+            course.gpa = courses.gpa_list[i]
+            sum_gpa += courses.gpa_list[i]*int(course.course.credit)
+            i+=1
+
+
+        average_grade = round(float(sum/counter_credit),2)
+        average_gpa = round(float(sum_gpa/counter_credit),2)
+        print(average_grade)
+        print(average_gpa)
+        print(counter_credit)
+    return render(request,'course.html',locals())
 
 def suggest_course(request):
     return render(request,'suggest_course.html')
@@ -87,10 +136,12 @@ def suggest_course(request):
 def person_info(request):
     if request.user.is_authenticated:
         my_infos=personal_info.objects.get(user=request.user)
+        student = student_info.objects.get(user=request.user)
         print(my_infos.address)
-        return render(request,'personal_info.html',{
-        'my_infos':my_infos,
-        })
+        # return render(request,'personal_info.html',{
+        # 'my_infos':my_infos,
+        # })
+        return render(request,'personal_info.html',locals())
     return render(request,'personal_info.html')
 
 def course_plan(request):
@@ -106,15 +157,21 @@ def course_plan(request):
     human = 0
     total_credit_count = 0
 
+    # student = student_info.objects.get(user=request.user)
     department=student_info.objects.get(user=request.user)
     mydepart = department.major[:2]
 
     require_credit_left = department_require[mydepart]
+    require_credit = department_require[mydepart]
     group_credit_left = department_group[mydepart]
+    group_credit = department_group[mydepart]
     print(mydepart)
     print(require_credit_left)
     print(group_credit_left)
-
+    require = 0
+    select = 0
+    group = 0
+    other = 0
     """所有修過的課程"""
     p = course_grade.objects.filter(user=request.user)
 
@@ -122,16 +179,17 @@ def course_plan(request):
         if i.course.deparment[:2]==mydepart:
             if i.course.course_type=='必':
                 require_credit_left-=int(i.course.credit)
-
+                require += int(i.course.credit)
                 print('必修:')
                 # print(i)
             elif i.course.course_type=='選':
-                group_credit_left-=int(i.course.credit)
-
+                # group_credit_left-=int(i.course.credit)
+                select+=int(i.course.credit)
                 print('選修:')
                 # print(i)
             elif i.course.course_type=='群':
-
+                group_credit_left-=int(i.course.credit)
+                group+=int(i.course.credit)
                 print('群修:' )
                 # print(i)
             # print(i)
@@ -147,66 +205,105 @@ def course_plan(request):
 
                 print('社會:')
                 # print(i)
-            if i.course.general_type=='自然通識':
+            elif i.course.general_type=='自然通識':
                 n_science += int(i.course.credit)
 
                 print('自然:')
                 # print(i)
-            if i.course.general_type=='人文通識':
+            elif i.course.general_type=='人文通識':
                 human += int(i.course.credit)
 
                 print('人文:')
                 # print(i)
-            if i.course.general_type=='中文通識':
+            elif i.course.general_type=='中文通識':
                 chinese += int(i.course.credit)
 
-                print('中文')
-            if i.course.general_type=='外文通識':
+                print('中文:')
+            elif i.course.general_type=='外文通識':
                 english += int(i.course.credit)
 
-                print('外文')
+                print('外文:')
             else:
-                print('其他')
+                other += int(i.course.credit)
+                print('其他:')
 
         total_credit_count+=int(i.course.credit)
         print(i)
 
+
     if n_science<4:
         n_science_credit_left = 4 - n_science
         print("自然還剩",n_science_credit_left)
-    elif n_science>9:
-        total_credit_count -= n_science - 9
+    else:
+        if n_science>9:
+            total_credit_count -= n_science - 9
+        n_science_credit_left = 0
 
     if s_science<4:
         s_science_credit_left = 4 - s_science
         print("社會還剩",s_science_credit_left)
-    elif s_science>9:
-        total_credit_count -= s_science - 9
+    else:
+        if s_science>9:
+            total_credit_count -= s_science - 9
+        s_science_credit_left = 0
 
-    if human<4:
+    if human<3:
         human_credit_left = 4 - human
         print("人文還剩",human_credit_left)
-    elif human>9:
-        total_credit_count -= human - 9
-
+    else:
+        if human>9:
+            total_credit_count -= human - 9
+        human_credit_left = 0
+    if sport<4:
+        sport_left = 4-sport
+        print("體育還剩",sport_left)
+    else:
+        sport_left = 0
     if service<2:
         service_left = 2 - service
         print("服務還剩",service_left)
+    else:
+        service_left = 0
 
     if english<4:
         english_credit_left = 4 - english
         print("英文還剩",english_credit_left)
-    elif english>6:
-        total_credit_count -= english - 6
+    else:
+        if english>6:
+            total_credit_count -= english - 6
+        english_credit_left = 0
 
     if  chinese<3:
         chinese_credit_left = 6 - chinese
         print("中文還剩",chinese_credit_left)
-    elif chinese>6:
-        total_credit_count -= chinese - 6
+    else:
+        if chinese>6:
+            total_credit_count -= chinese - 6
+        chinese_credit_left = 0
 
+    science_require = "4~9"
+    social_require = "3~9"
+    human_require = "3~9"
+    service_require = 2
+    sport_require = 4
+    english_require = "4~6"
+    chinese_require = "3~6"
+    language_require ="7~12"
+    gerneral_require = "28~32"
+
+    language_total_left = english_credit_left+chinese_credit_left
+    general_total_left = n_science_credit_left + s_science_credit_left+human_credit_left
     print("必修剩下多少學分",require_credit_left)
     print("群修剩下多少學分",group_credit_left)
+    print("必修",require)
+    print("選修",select)
+    print("群修",group)
+    print("其他",other)
+    print("中文",chinese)
+    print("外文",english)
+    print("自然",n_science)
+    print("社會",s_science)
+    print("人文",human)
     print("總共已修",total_credit_count)
 
 

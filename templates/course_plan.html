@@ -1,190 +1,235 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Inccu homepage</title>
-        <meta charset="utf-8">
-        <style>
-        body, html{
-       height: 100%;
-       padding: 0;
-       margin: 0;
-       font-family: 'Sniglet', cursive;
+      <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+      {% load staticfiles %}
+      <link rel="stylesheet" href="{%static 'css/semantic.css'%}">
+
+      <style>
+
+      #box {
+        background-color:white;
+        list-style: none;
+        overflow: hidden;
+        position:absolute;
+        width:1050px;
+        height:500px;
+        top: 55%; right: 50%;
+        transform: translate(50%,-50%);
+        border-radius:20px;
+        box-shadow: 0px 0px 20px 0px #a6a6a6;
+        overflow: auto;
       }
-      h1{
-       font-weight: normal;
-       font-size: 3em;
-       font-family: 'Raleway', sans-serif;
-       margin: 0 auto;
-       margin-top: 30px;
-       width: 500px;
-       color: #F90;
-       text-align: center;
+
+      #sector {
+        background-color:white;
+        list-style: none;
+        /* overflow: hidden; */
+        position:absolute;
+        width:275px;
+        height:275px;
+        top: 25%; right: 50%;
+        transform: translate(50%,-50%);
+        border-radius:50%;
+        box-shadow: 0px 0px 20px 0px #a6a6a6;
+      }
+      #sector_location{
+        margin-left:100px;
+        margin-top:10px;
+        font-weight: bold;
 
       }
 
-      /* Animation webkit */
-      @-webkit-keyframes myfirst
-      {
-       0% {margin-left: -235px}
-       90% {margin-left: 100%;}
-       100% {margin-left: 100%;}
-      }
 
-      /* Animation */
-      @keyframes myfirst
-      {
-       0% {margin-left: -235px}
-       70% {margin-left: 100%;}
-       100% {margin-left: 100%;}
-      }
+      th {
+        color:#2185D0;
+        text-align: center;
+        padding: 8px;
 
-      .fish{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/fish.png');
-       width: 235px;
-       height: 104px;
-       margin-left: -235px;
-       position: absolute;
-       animation: myfirst 24s;
-       -webkit-animation: myfirst 24s;
-       animation-iteration-count: infinite;
-       -webkit-animation-iteration-count: infinite;
-       animation-timing-function: linear;
-       -webkit-animation-timing-function: linear;
-      }
+       }
+       td{
+         color:black;
+         text-align:center;
+         padding: 8px;
+       }
 
-      #fish{
-       top: 120px;
-      }
-
-      #fish2{
-       top: 260px;
-       animation-delay: 12s;
-       -webkit-animation-delay: 12s;
-      }
-
-      header{
-       height: 160px;
-       background: url('http://www.geertjanhendriks.nl/codepen/form/golf.png') repeat-x bottom;
-      }
-
-      #form{
-       height: 100%;
-       background-color: #98d4f3;
-       overflow: hidden;
-       position: relative;
-
-      }
-      form{
-       margin: 0 auto;
-       width: 500px;
-       padding-top: 40px;
-       color: white;
-       position: relative;
-
-
-      }
-      label, input, textarea{
-       display: block;
-      }
-      input, textarea{
-       width: 500px;
-       border: none;
-       border-radius: 20px;
-       outline: none;
-       padding: 10px;
-       font-family: 'Sniglet', cursive;
-       font-size: 1em;
-       color: #676767;
-       transition: border 0.5s;
-       -webkit-transition: border 0.5s;
-       -moz-transition: border 0.5s;
-       -o-transition: border 0.5s;
-       border: solid 3px #98d4f3;
-       -webkit-box-sizing:border-box;
-       -moz-box-sizing:border-box;
-       box-sizing:border-box;
-
-      }
-      input:focus, textarea:focus{
-       border: solid 3px #77bde0;
-      }
-
-      textarea{
-       height: 100px;
-       resize: none;
-       overflow: auto;
-      }
-      input[type="submit"]{
-       background-color: #F90;
-       color: white;
-       height: 50px;
-       cursor: pointer;
-       margin-top: 30px;
-       font-size: 1.29em;
-       font-family: 'Sniglet', cursive;
-       -webkit-transition: background-color 0.5s;
-       -moz-transition: background-color 0.5s;
-       -o-transition: background-color 0.5s;
-       transition: background-color 0.5s;
-      }
-      input[type="submit"]:hover{
-       background-color: #e58f0e;
-
-      }
-      label{
-       font-size: 1.5em;
-       margin-top: 20px;
-       padding-left: 20px;
-      }
-      body{
+      tr:nth-child(odd) {
+         background-color: #f0f0f0;
+       }
+       .button{
+         position: relative;
+         margin: 0 auto;
+         text-align: center;
+         bottom: calc(70px - 52vh);
+       }
+       html, body {
+        margin: 0;
+        padding: 0;
         height: 100%;
-        background-color: #98d4f3;
-        overflow: hidden;
-        position: relative;
       }
+      #general{
 
-      .formgroup{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/pixel.gif');
+        width:30%;
+        height:50px;
+        margin-left:110px;
+        margin-top:40px;
       }
-      .formgroup-active{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/octo.png');
+      #school_general{
+
+        width:30%;
+        height:50px;
+        margin-left:200px;
+        margin-top:40px;
       }
-      .formgroup-error{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/octo-error.png');
-       color: red;
+      #require{
+        width:30%;
+        height:10px;
+        margin-left:110px;
+        margin-top:40px;
       }
-      .content a:link, a:visited {
-          background-color: black;
-          color: white;
-          padding: 10px 50px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          border-radius: 25px;
-          margin-right:50px;
-          margin-top:20px;
+      #select{
+        width:30%;
+        height:10px;
+        margin-left:200px;
+        margin-top:40px;
       }
+    </style>
+  </head>
+    <body>
 
+      <div id='sector'>
+        <div id='sector_location'>
 
-      .content a:hover, a:active {
-          background-color: #D3D3D3;
-          color:black;
-      }
-      .content{
-        margin-top :40px;
-        font-size: 1em;
-        overflow: hidden;
-      }
-        </style>
-    </head>
+                <p style="margin-left:18px;font-size:15px;">{{department.major}}</p>
 
-    <h1>成績列表</h1>
-    <p> {{total_credit_count}}</p>
-    <p> {{require_credit_left}}</p>
-    <div class="fish" id="fish"></div>
-    <div class="fish" id="fish2"></div>
+                <p style="margin-left:10px;font-size:20px;">{{department.name}}</p>
 
+                <p style="margin-left:3px;font-size:20px;color:#2185D0;">修課計畫</p>
 
+        </div >
+      </div>
 
+    <div id="box" >
+        <!-- <span style="display:inline;"> -->
+         <div style="width:100%;height:50%;">
+           <table id="general" style="float:left">
+               <tr>
+                   <th>語文通識</th>
+                   <th>應修</th>
+                   <th>已修</th>
+                   <th>尚缺</th>
+               </tr>
+               <tr>
+                   <td>中文通識</td>
+                   <td>{{chinese_require}}學分</td>
+                   <td>{{chinese}}學分</td>
+                   <td>{{chinese_credit_left}}學分</td>
+               </tr>
+               <tr>
+                   <td>外文通識</td>
+                   <td>{{english_require}}學分</td>
+                   <td>{{english}}學分</td>
+                   <td>{{english_credit_left}}學分</td>
+               </tr>
+               <!-- <tr>
+                  <td>合計</td>
+                  <td>{{language_require}}學分</td>
+                  <td>{{language_total_left}}學分</td>
+               </tr> -->
+          </table>
 
+          <table id="school_general" style="float:left">
+              <tr>
+                  <th>一般通識</th>
+                  <th>應修</th>
+                  <th>已修</th>
+                  <th>尚缺</th>
+              </tr>
+              <tr>
+                  <td>自然</td>
+                  <td>{{science_require}}學分</td>
+                  <td>{{n_science}}學分</td>
+                  <td>{{n_science_credit_left}}學分</td>
+              </tr>
+              <tr>
+                  <td>人文</td>
+                  <td>{{human_require}}學分</td>
+                  <td>{{human}}學分</td>
+                  <td>{{human_credit_left}}學分</td>
+              </tr>
+              <tr>
+                 <td>社會</td>
+                 <td>{{social_require}}學分</td>
+                 <td>{{s_science}}學分</td>
+                 <td>{{s_science_credit_left}}學分</td>
+              </tr>
+              <!-- <tr>
+                <td>合計</td>
+                <td>{{gerneral_require}}學分</td>
+                <td>{{general_total_left}}學分</td>
+              </tr> -->
+
+         </table>
+       </div>
+         <table id="require" style="float:left">
+             <tr>
+                 <th>本系</th>
+                 <th>應修</th>
+                 <th>已修</th>
+                 <th>尚缺</th>
+             </tr>
+             <tr>
+                 <td>必修科目</td>
+                 <td>{{require_credit}}學分</td>
+                 <td>{{require}}學分</td>
+                 <td>{{require_credit_left}}學分</td>
+             </tr>
+             <tr>
+                 <td>群修科目</td>
+                 <td>{{group_credit}}學分</td>
+                 <td>{{group}}學分</td>
+                 <td>{{group_credit_left}}學分</td>
+             </tr>
+                <td>選修科目</td>
+                <td>--</td>
+                <td>{{select}}學分</td>
+                <td>--</td>
+             </tr>
+             <tr>
+                <td>整開</td>
+                <td>--</td>
+                <td>{{other}}學分</td>
+                <td>--</td>
+             </tr>
+        </table>
+
+          <table id="select" style="float:left">
+              <tr>
+                  <th>其他</th>
+                  <th>應修</th>
+                  <th>尚缺</th>
+              </tr>
+              <tr>
+                  <td>體育</td>
+                  <td>{{sport_require}}科目</td>
+                  <td>{{sport_left}}科目</td>
+              </tr>
+              <tr>
+                 <td>服務課程</td>
+                 <td>{{service_require}}科目</td>
+                 <td>{{service_left}}科目</td>
+              </tr>
+              <tr>
+                <td>外語檢定</td>
+                <td>1科目</td>
+                <td>1科目</td>
+              </tr>
+         </table>
+       </div>
+  </div>
+      <div class="button">
+        <a href="/student/" class="ui blue button">回首頁</a>
+      </div>
+    </div>
+ </body>
 </html>

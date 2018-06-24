@@ -1,188 +1,174 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Inccu homepage</title>
-        <meta charset="utf-8">
-        <style>
-        body, html{
-       height: 100%;
-       padding: 0;
-       margin: 0;
-       font-family: 'Sniglet', cursive;
+      <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+      {% load staticfiles %}
+      <link rel="stylesheet" href="{%static 'css/semantic.css'%}">
+
+      <style>
+
+      #box {
+        background-color:white;
+        list-style: none;
+        overflow: hidden;
+        position:absolute;
+        width:1050px;
+        height:500px;
+        top: 55%; right: 50%;
+        transform: translate(50%,-50%);
+        border-radius:20px;
+        box-shadow: 0px 0px 20px 0px #a6a6a6;
+        overflow: auto;
       }
-      h1{
-       font-weight: normal;
-       font-size: 3em;
-       font-family: 'Raleway', sans-serif;
-       margin: 0 auto;
-       margin-top: 30px;
-       width: 500px;
-       color: #F90;
-       text-align: center;
+      #box_location{
+
+        margin-left: 50px;
+        margin-top: 50px;
+        font-size: 15px;
+      }
+      #sector {
+        background-color:white;
+        list-style: none;
+        /* overflow: hidden; */
+        position:absolute;
+        width:275px;
+        height:275px;
+        top: 25%; right: 50%;
+        transform: translate(50%,-50%);
+        border-radius:50%;
+        box-shadow: 0px 0px 20px 0px #a6a6a6;
+      }
+      #sector_location{
+        margin-left:100px;
+        margin-top:10px;
+        font-weight: bold;
 
       }
-
-      /* Animation webkit */
-      @-webkit-keyframes myfirst
-      {
-       0% {margin-left: -235px}
-       90% {margin-left: 100%;}
-       100% {margin-left: 100%;}
+      .block{
+        width:300px;
+        height:300px;
       }
-
-      /* Animation */
-      @keyframes myfirst
-      {
-       0% {margin-left: -235px}
-       70% {margin-left: 100%;}
-       100% {margin-left: 100%;}
-      }
-
-      .fish{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/fish.png');
-       width: 235px;
-       height: 104px;
-       margin-left: -235px;
-       position: absolute;
-       animation: myfirst 24s;
-       -webkit-animation: myfirst 24s;
-       animation-iteration-count: infinite;
-       -webkit-animation-iteration-count: infinite;
-       animation-timing-function: linear;
-       -webkit-animation-timing-function: linear;
-      }
-
-      #fish{
-       top: 120px;
-      }
-
-      #fish2{
-       top: 260px;
-       animation-delay: 12s;
-       -webkit-animation-delay: 12s;
-      }
-
-      header{
-       height: 160px;
-       background: url('http://www.geertjanhendriks.nl/codepen/form/golf.png') repeat-x bottom;
-      }
-
-      #form{
-       height: 100%;
-       background-color: #98d4f3;
-       overflow: hidden;
-       position: relative;
+      #course{
+        font-size:20px;
+        width:90%;
+        margin-left:50px;
 
       }
-      form{
-       margin: 0 auto;
-       width: 500px;
-       padding-top: 40px;
-       color: white;
-       position: relative;
+      #average{
+          font-size:20px;
+        width:25%;
+        margin-left:50px;
+      }
+      #text{
+        font-size:20px;
+        width:25%;
+        margin-left:50px;
+      }
+      th {
+        /* width:90% */
+        color:#2185D0;
+        /* color:#00C2C2; */
+        /* border: 1px solid #dddddd; */
+        /* border: 1px solid #2185D0; */
+        font-size: 15px;
+        text-align: left;
+        padding: 12px;
 
+       }
+       td{
+         font-size: 15px;
+         color:black;
+         /* border: 1px solid #dddddd; */
+         text-align: left;
+         padding: 12px;
+       }
 
-      }
-      label, input, textarea{
-       display: block;
-      }
-      input, textarea{
-       width: 500px;
-       border: none;
-       border-radius: 20px;
-       outline: none;
-       padding: 10px;
-       font-family: 'Sniglet', cursive;
-       font-size: 1em;
-       color: #676767;
-       transition: border 0.5s;
-       -webkit-transition: border 0.5s;
-       -moz-transition: border 0.5s;
-       -o-transition: border 0.5s;
-       border: solid 3px #98d4f3;
-       -webkit-box-sizing:border-box;
-       -moz-box-sizing:border-box;
-       box-sizing:border-box;
-
-      }
-      input:focus, textarea:focus{
-       border: solid 3px #77bde0;
-      }
-
-      textarea{
-       height: 100px;
-       resize: none;
-       overflow: auto;
-      }
-      input[type="submit"]{
-       background-color: #F90;
-       color: white;
-       height: 50px;
-       cursor: pointer;
-       margin-top: 30px;
-       font-size: 1.29em;
-       font-family: 'Sniglet', cursive;
-       -webkit-transition: background-color 0.5s;
-       -moz-transition: background-color 0.5s;
-       -o-transition: background-color 0.5s;
-       transition: background-color 0.5s;
-      }
-      input[type="submit"]:hover{
-       background-color: #e58f0e;
-
-      }
-      label{
-       font-size: 1.5em;
-       margin-top: 20px;
-       padding-left: 20px;
-      }
-      body{
+       #course > tbody > tr:nth-child(odd) {
+         background-color: #f0f0f0;
+       }
+       .button{
+         position: relative;
+         margin: 0 auto;
+         text-align: center;
+         bottom: calc(70px - 52vh);
+       }
+       html, body {
+        margin: 0;
+        padding: 0;
         height: 100%;
-        background-color: #98d4f3;
-        overflow: hidden;
-        position: relative;
       }
+    </style>
+  </head>
+    <body>
+      <div>
+      <div id='sector'>
+        <div id='sector_location'>
 
-      .formgroup{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/pixel.gif');
-      }
-      .formgroup-active{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/octo.png');
-      }
-      .formgroup-error{
-       background-image: url('http://www.geertjanhendriks.nl/codepen/form/octo-error.png');
-       color: red;
-      }
-      .content a:link, a:visited {
-          background-color: black;
-          color: white;
-          padding: 10px 50px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          border-radius: 25px;
-          margin-right:50px;
-          margin-top:20px;
-      }
+                <p style="margin-left:18px;font-size:15px;">{{student.major}}</p>
+
+                <p style="margin-left:10px;font-size:20px;">{{student.name}}</p>
+
+                <p style="margin-left:20px;font-size:20px;color:#2185D0;">課程</p>
+
+        </div>
+      </div>
+      <div id="box">
+           <!-- <div></div> -->
+            <div>
+                <!-- <table id="average">
+                  <tr>
+                    <th>成績平均</th>
+                    <th>GPA平均</th>
+                  </tr>
+                  <tr>
+                    <td>{{average_grade}}</td>
+                    <td>{{average_gpa}}</td>
+                  </tr>
+              </table> -->
+            <br>
+            <!-- <div style="color:#2185D0;">修課紀錄</div> -->
+            <table id="text">
+                <tr>
+                  <th >推薦課程</th>
+                </tr>
+            </table>
+            <br>
+            <table id="course">
+              <tr>
+                <th style="width:10%;">學期</th><th style="width:15%;">科目代碼</th>
+                <th style="width:30%;">科目名稱</th><th style="width:10%;">課程類別</th>
+                <th style="width:10%;">通識種類</th><th style="width:10%;">學分數</th>
+                <th style="width:8%;">學期成績</th><th style="width:7%;">GPA</th>
+              </tr>
+            <div>
 
 
-      .content a:hover, a:active {
-          background-color: #D3D3D3;
-          color:black;
-      }
-      .content{
-        margin-top :40px;
-        font-size: 1em;
-        overflow: hidden;
-      }
-        </style>
-    </head>
+            {% for course in courses %}
+            <tr>
+            <td>{{course.course.AcademicYear}}</td>
+            <td>{{course.course.course_code}}</td>
+            <td>{{course.course.course_name}}</td>
+            <td>{{course.course.course_type}}</td>
+            <td>{{course.course.general_type}}</td>
+            <td>{{course.course.credit}}</td>
+            <td>{{course.grade}}</td>
+            <td>{{course.gpa}}</td>
 
-    <h1> 推薦課程 </h1>
-    <div class="fish" id="fish"></div>
-    <div class="fish" id="fish2"></div>
+            <!-- {{course.course.department}}
+            {{course.course.course_type}}
+            {{course.course.general_type}}
+            {{course.grade_range.gpa_count}} -->
+          </tr>
+                      {% endfor %}
+          </div>
 
 
-
-
+        </table>
+      </div>
+    </div>
+      <div class="button">
+        <a href="/student/" class="ui blue button">回首頁</a>
+      </div>
+    </div>
+ </body>
 </html>
