@@ -140,11 +140,6 @@ def suggest_course(request):
     data={}
     for i in courses:
         data[i.course_code]=random.randint(1,10)
-    """
-    for i in data:
-        print(data[i])
-        print(i)
-    """
     #find the general_course
     general = course_grade.objects.filter(user=request.user)
     for i in general:
@@ -211,16 +206,16 @@ def suggest_course(request):
     propose1=heapq.nlargest(5, majors.keys())
     propose2=heapq.nlargest(3, general.keys())
     propose3=heapq.nlargest(2, data.keys())
+    mycourses=[]
+    count = 0
     for i in propose1:
-        print(i)
-        print(course.objects.get(course_code=i))
+        mycourses.append(course.objects.get(course_code=i))
     for i in propose2:
-        print(i)
-        print(course.objects.get(course_code=i))
+        mycourses.append(course.objects.get(course_code=i))
     for i in propose3:
-        print(i)
-        print(course.objects.get(course_code=i))
-    return render(request,'suggest_course.html')
+        mycourses.append(course.objects.get(course_code=i))
+    student = student_info.objects.get(user=request.user)
+    return render(request,'suggest_course.html',{'courses':mycourses,'student':student})
 
 def person_info(request):
     if request.user.is_authenticated:
@@ -328,8 +323,8 @@ def course_plan(request):
             total_credit_count -= n_science - 9
         n_science_credit_left = 0
 
-    if s_science<4:
-        s_science_credit_left = 4 - s_science
+    if s_science<3:
+        s_science_credit_left = 3 - s_science
         print("社會還剩",s_science_credit_left)
     else:
         if s_science>9:
@@ -337,7 +332,7 @@ def course_plan(request):
         s_science_credit_left = 0
 
     if human<3:
-        human_credit_left = 4 - human
+        human_credit_left = 3 - human
         print("人文還剩",human_credit_left)
     else:
         if human>9:

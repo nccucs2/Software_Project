@@ -138,26 +138,18 @@
                 <th style="width:10%;">學期</th><th style="width:15%;">科目代碼</th>
                 <th style="width:30%;">科目名稱</th><th style="width:10%;">課程類別</th>
                 <th style="width:10%;">通識種類</th><th style="width:10%;">學分數</th>
-                <th style="width:8%;">學期成績</th><th style="width:7%;">GPA</th>
               </tr>
             <div>
 
 
             {% for course in courses %}
             <tr>
-            <td>{{course.course.AcademicYear}}</td>
-            <td>{{course.course.course_code}}</td>
-            <td>{{course.course.course_name}}</td>
-            <td>{{course.course.course_type}}</td>
-            <td>{{course.course.general_type}}</td>
-            <td>{{course.course.credit}}</td>
-            <td>{{course.grade}}</td>
-            <td>{{course.gpa}}</td>
-
-            <!-- {{course.course.department}}
-            {{course.course.course_type}}
-            {{course.course.general_type}}
-            {{course.grade_range.gpa_count}} -->
+            <td>{{course.AcademicYear}}</td>
+            <td>{{course.course_code}}</td>
+            <td>{{course.course_name}}</td>
+            <td>{{course.course_type}}</td>
+            <td>{{course.general_type}}</td>
+            <td>{{course.credit}}</td>
           </tr>
                       {% endfor %}
           </div>

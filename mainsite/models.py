@@ -44,9 +44,9 @@ class personal_info(models.Model):
     id_number = models.CharField(max_length=10)
     guardian = models.CharField(max_length=10)
     birth = models.DateField()
-    phone_number = models.IntegerField()
+    phone_number = models.CharField(max_length=10)
     english_name = models.CharField(max_length=20)
-    e_mail = models.CharField(max_length=30,default='')
+    e_mail = models.CharField(max_length=20,default='')
     def __str__(self):
         return str(self.user)
 
